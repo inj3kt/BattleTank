@@ -14,11 +14,12 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 private:
-	ATank* GetControlledTank() const;
-	ATank* GetPlayerTank() const;
+	
 
 	void virtual BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	float AcceptanceRadius = 3000;
 	
 };

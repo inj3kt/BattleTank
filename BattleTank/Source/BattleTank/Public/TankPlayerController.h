@@ -5,15 +5,21 @@
 #include "CoreMinimal.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
+
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+protected:
+	
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimingComponentReference);
 
 private:
-	ATank* GetControlledTank() const;
+	
 
 	virtual void BeginPlay() override;
 
@@ -25,16 +31,16 @@ private:
 	//return an OUT param, true if it hits landscape
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairXLocation = 0.5;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairYLocation = 0.3333;
 
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 };

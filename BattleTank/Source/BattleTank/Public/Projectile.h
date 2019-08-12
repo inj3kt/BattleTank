@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Runtime/Engine/Classes/GameFramework/ProjectileMovementComponent.h"
 #include "Projectile.generated.h"
+
+
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -23,4 +26,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void LaunchProjectile(float Speed);
+
+private:
+
+	UProjectileMovementComponent* ProjectileMovement = nullptr; //test forward declaration
+	
 };
