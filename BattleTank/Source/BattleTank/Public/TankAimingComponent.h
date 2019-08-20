@@ -11,7 +11,8 @@ UENUM()
 enum class EFiringStatus : uint8 {
 	Locked,
 	Aiming,
-	Reloading
+	Reloading,
+	OutOfAmmo
 };
 
 //forward declaration, allows reference to created UTankBarrel UE4 C++ class
@@ -36,15 +37,29 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	EFiringStatus GetFiringState() const;
 	
 	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int32 GetRoundsLeft() const;
 
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringState = EFiringStatus::Reloading;
+	EFiringStatus FiringState = EFiringStatus::Aiming;
 
 private:
+	virtual void BeginPlay() override;
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
+
+	bool IsBarrelMoving();
+
+	void MoveBarrelTowards(FVector AimDirection);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -55,12 +70,13 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
 
-	double LastFireTime = 0;
-	UTankBarrel* Barrel = nullptr;
-	UTankTurret* Turret = nullptr;
-		
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 RoundsLeft = 3;
 
-	void MoveBarrelTowards(FVector AimDirection);
+	double LastFireTime = 0;
+	
+	FVector AimDirection;
+
 	
 		
 };

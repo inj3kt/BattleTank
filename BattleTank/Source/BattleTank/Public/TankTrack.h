@@ -15,6 +15,7 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
+	
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetThrottle(float Throttle);
 
@@ -22,4 +23,21 @@ public:
 	//tank mass is 60 MT, 
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivingForce = 40000 * 10; //F = mass*accel
+private:
+
+	UTankTrack();
+
+	virtual void BeginPlay() override;
+
+	
+	void ApplySidewaysForce();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	void DriveTrack();
+
+	float CurrentThrottle = 0;
+
+	
 };

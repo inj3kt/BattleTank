@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "TankPlayerController.h"
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
-#include "TankPlayerController.h"
+
 
 
 
@@ -25,6 +26,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 
 void ATankPlayerController::AimTowardsCrosshair() {
+	if (!GetPawn()) { return; }
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	FVector HitLocation; //out param
@@ -44,10 +46,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	//De-project the screen position of the crosshair to a world direction
 	FVector LookDirection;
 	if (GetLookDirection(CrosshairLocation, LookDirection)) {		
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}		
 	//Line-trace along that look direction, and see what we hit
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const {
