@@ -14,16 +14,12 @@ UCLASS()
 class BATTLETANK_API ATank : public APawn
 { 
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this pawn's properties
-	ATank();
 		
 protected:
 	
 
 public:	
-	// Called when the game starts or when spawned
+	
 	virtual float TakeDamage
 	(
 		float DamageAmount,
@@ -32,7 +28,13 @@ public:
 		AActor* DamageCauser
 	) override;
 	
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercent() const;
+
 private:
+
+	ATank();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 InitialHealth = 100;
 

@@ -5,6 +5,11 @@
 #include "BattleTank.h"
 
 
+float ATank::GetHealthPercent() const
+{
+	return (float)CurrentHealth/(float)InitialHealth;
+}
+
 // Sets default values
 ATank::ATank()
 {
@@ -28,6 +33,7 @@ float ATank::TakeDamage
 	int32 DamageToApply = FMath::Clamp(DamageHP, 0, CurrentHealth);
 
 	CurrentHealth -= DamageToApply;
+	
 	if (CurrentHealth <= 0) {
 		UE_LOG(LogTemp, Warning, TEXT("TankDied"));
 	}
